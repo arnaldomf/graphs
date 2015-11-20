@@ -1,10 +1,10 @@
 package graphs
 
 //GraphProcessor is used to process the graph
-type GraphProcessor interface {
-	ProcessEdge(int, int)
-	ProcessVertexEarly(int)
-	ProcessVertexLate(int)
+type GraphProcessor struct {
+	ProcessEdge        func(int, int)
+	ProcessVertexEarly func(int)
+	ProcessVertexLate  func(int)
 }
 
 var (
@@ -33,7 +33,7 @@ func (g *Graph) initializeSearch() {
 /*BreadthFirstSearch algorithm for graph traverlas, where each level is explored
 before getting to the next one. "start" must be part of Graph, otherise panics
 */
-func (g *Graph) BreadthFirstSearch(start int, gp GraphProcessor) {
+func (g *Graph) BreadthFirstSearch(start int, gp *GraphProcessor) {
 	if g.Edges[start] == nil {
 		panic("BreadthFirstSearch: Cant start from dead end")
 	}
