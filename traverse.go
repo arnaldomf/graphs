@@ -8,16 +8,25 @@ type GraphProcessor interface {
 }
 
 var (
-	discovered [MAXV + 1]bool
-	processed  [MAXV + 1]bool
-	parent     [MAXV + 1]int
+	discovered = make(map[*Graph][]bool)
+	processed  = make(map[*Graph][]bool)
+	parent     = make(map[*Graph][]int)
 )
 
 func (g *Graph) initializeSearch() {
+	if processed[g] == nil {
+		processed[g] = make([]bool, MAXV)
+	}
+	if discovered[g] == nil {
+		discovered[g] = make([]bool, MAXV)
+	}
+	if parent[g] == nil {
+		parent[g] = make([]int, MAXV)
+	}
 	for i := 1; i < g.NVertices; i++ {
-		processed[i] = false
-		discovered[i] = false
-		parent[i] = -1
+		processed[g][i] = false
+		discovered[g][i] = false
+		parent[g][i] = -1
 	}
 }
 
@@ -34,21 +43,21 @@ func (g *Graph) BreadthFirstSearch(start int, gp GraphProcessor) {
 	g.initializeSearch()
 	queue := make(chan int, g.NEdges+1)
 	queue <- start
-	discovered[start] = true
+	discovered[g][start] = true
 	for len(queue) > 0 {
 		v = <-queue
 		gp.ProcessVertexEarly(v)
-		processed[v] = true
+		processed[g][v] = true
 		p = g.Edges[v]
 		for p != nil {
 			y = p.Y
-			if !processed[y] || g.Directed {
+			if !processed[g][y] || g.Directed {
 				gp.ProcessEdge(v, y)
 			}
-			if !discovered[y] {
+			if !discovered[g][y] {
 				queue <- y
-				discovered[y] = true
-				parent[y] = v
+				discovered[g][y] = true
+				parent[g][y] = v
 			}
 			p = p.next
 		}
