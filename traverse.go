@@ -13,7 +13,8 @@ var (
 	parent     = make(map[*Graph][]int)
 )
 
-func (g *Graph) initializeSearch() {
+// InitializeSearch allocates the discovered, processed and parent slices
+func (g *Graph) InitializeSearch() {
 	if processed[g] == nil {
 		processed[g] = make([]bool, g.MAXV)
 	}
@@ -31,7 +32,9 @@ func (g *Graph) initializeSearch() {
 }
 
 /*BreadthFirstSearch algorithm for graph traversal, where each level is explored
-before getting to the next one. "start" must be part of Graph, otherise panics
+before getting to the next one. "start" must be part of Graph, otherwise panics.
+
+Must call InitializeSearch before BreadthFirstSearch
 */
 func (g *Graph) BreadthFirstSearch(start int, gp *GraphProcessor) {
 	if g.Edges[start] == nil {
@@ -40,7 +43,7 @@ func (g *Graph) BreadthFirstSearch(start int, gp *GraphProcessor) {
 	var p *Edgenode
 	var v int
 	var y int
-	g.initializeSearch()
+
 	queue := make(chan int, g.NVertices+1)
 	queue <- start
 	discovered[g][start] = true

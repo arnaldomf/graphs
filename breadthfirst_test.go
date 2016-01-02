@@ -26,6 +26,7 @@ func Example() {
 	g.AddEdge(5, 3, 0)
 	g.AddEdge(3, 9, 0)
 	g.AddEdge(5, 1, 0)
+	g.InitializeSearch()
 	g.BreadthFirstSearch(1, gp)
 
 	// Output:
