@@ -41,7 +41,6 @@ func (g *Graph) auxiliaryAddEdge(x, y, weight int) {
 	auxEdge := new(Edgenode)
 	if g.Edges[x] == nil {
 		g.Edges[x] = auxEdge
-		g.NVertices++
 	} else {
 		ptr := g.Edges[x]
 		for {
@@ -54,7 +53,6 @@ func (g *Graph) auxiliaryAddEdge(x, y, weight int) {
 	}
 	auxEdge.Y = y
 	auxEdge.Weight = weight
-	g.Degree[x]++
 }
 
 // AddEdge adds a new edge to Graph structure, if weight = 0 it will be ignored
@@ -67,6 +65,8 @@ func (g *Graph) AddEdge(x, y, weight int) {
 	if !g.Directed {
 		g.auxiliaryAddEdge(y, x, weight)
 	}
+	g.Degree[x]++
+	g.NVertices++
 	g.NEdges++
 }
 

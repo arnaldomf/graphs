@@ -30,7 +30,7 @@ func (g *Graph) initializeSearch() {
 	}
 }
 
-/*BreadthFirstSearch algorithm for graph traverlas, where each level is explored
+/*BreadthFirstSearch algorithm for graph traversal, where each level is explored
 before getting to the next one. "start" must be part of Graph, otherise panics
 */
 func (g *Graph) BreadthFirstSearch(start int, gp *GraphProcessor) {
@@ -41,7 +41,7 @@ func (g *Graph) BreadthFirstSearch(start int, gp *GraphProcessor) {
 	var v int
 	var y int
 	g.initializeSearch()
-	queue := make(chan int, g.NEdges+1)
+	queue := make(chan int, g.NVertices+1)
 	queue <- start
 	discovered[g][start] = true
 	for len(queue) > 0 {
