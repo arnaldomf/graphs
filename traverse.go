@@ -15,13 +15,13 @@ var (
 
 func (g *Graph) initializeSearch() {
 	if processed[g] == nil {
-		processed[g] = make([]bool, MAXV)
+		processed[g] = make([]bool, g.MAXV)
 	}
 	if discovered[g] == nil {
-		discovered[g] = make([]bool, MAXV)
+		discovered[g] = make([]bool, g.MAXV)
 	}
 	if parent[g] == nil {
-		parent[g] = make([]int, MAXV)
+		parent[g] = make([]int, g.MAXV)
 	}
 	for i := 1; i < g.NVertices; i++ {
 		processed[g][i] = false

@@ -5,9 +5,6 @@ package graphs
 
 import "fmt"
 
-// MAXV is the maximum number of vertices on a Graph
-const MAXV = 10
-
 // Edgenode represents an edge on an adjacency list
 type Edgenode struct {
 	Y      int
@@ -17,12 +14,27 @@ type Edgenode struct {
 
 // Graph is an adjacency list representing a graph
 type Graph struct {
-	Edges       [MAXV + 1]*Edgenode
-	Degree      [MAXV + 1]int
-	NVertices   int
-	NEdges      int
-	Directed    bool
-	initialized bool
+	Edges     []*Edgenode
+	Degree    []int
+	MAXV      int
+	NVertices int
+	NEdges    int
+	Directed  bool
+}
+
+// New creates a new Graph with maxvertices alocated
+func New(maxvertices int, direct bool) (*Graph, error) {
+	if maxvertices <= 0 {
+		return nil, fmt.Errorf("graphs.New: maxvertices less than 0")
+	}
+	g := &Graph{}
+	g.Directed = direct
+	g.MAXV = maxvertices
+	for i := 0; i <= maxvertices; i++ {
+		g.Edges = append(g.Edges, nil)
+		g.Degree = append(g.Degree, 0)
+	}
+	return g, nil
 }
 
 func (g *Graph) auxiliaryAddEdge(x, y, weight int) {
@@ -47,8 +59,8 @@ func (g *Graph) auxiliaryAddEdge(x, y, weight int) {
 
 // AddEdge adds a new edge to Graph structure, if weight = 0 it will be ignored
 func (g *Graph) AddEdge(x, y, weight int) {
-	if x >= MAXV || y >= MAXV {
-		errMessage := fmt.Sprintf("x and y must be < %d", MAXV)
+	if x >= g.MAXV || y >= g.MAXV {
+		errMessage := fmt.Sprintf("x and y must be < %d", g.MAXV)
 		panic(errMessage)
 	}
 	g.auxiliaryAddEdge(x, y, weight)

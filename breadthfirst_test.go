@@ -16,7 +16,11 @@ func Example() {
 			fmt.Printf("Processed vertex %d\n", x)
 		},
 	}
-	g := new(graphs.Graph)
+
+	g, err := graphs.New(10, false)
+	if err != nil {
+		panic(err)
+	}
 	g.AddEdge(1, 8, 0)
 	g.AddEdge(1, 9, 0)
 	g.AddEdge(5, 3, 0)
